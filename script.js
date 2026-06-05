@@ -1,7 +1,6 @@
 function setTheme(theme) {
-    document.body.classList.remove("dark", "light", "cool");
+    document.body.classList.remove("dark","light","cool");
     document.body.classList.add(theme);
-
     localStorage.setItem("theme", theme);
 }
 
