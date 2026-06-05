@@ -10,36 +10,34 @@
 <body class="dark">
 
 <nav>
-    <div class="logo">GuitarTimee</div>
+<div class="logo">GuitarTimee</div>
 
-    <div class="nav-right">
-        <a href="index.html">Home</a>
-        <a href="bookings.html">Bookings</a>
-        <a href="workspace.html">Workspace</a>
+<div class="nav-right">
+<a href="index.html">Home</a>
+<a href="bookings.html">Bookings</a>
+<a href="workspace.html">Workspace</a>
 
-        <select id="themeSelector" onchange="setTheme(this.value)">
-            <option value="dark">Dark</option>
-            <option value="light">Light</option>
-            <option value="cool">Cool Colours</option>
-        </select>
-    </div>
+<select id="themeSelector" onchange="setTheme(this.value)">
+<option value="dark">Dark</option>
+<option value="light">Light</option>
+<option value="cool">Cool Colours</option>
+</select>
+</div>
 </nav>
 
 <section>
 
 <h1>Lesson Workspace</h1>
 
-<p>Join your lesson below.</p>
+<div class="workspace">
 
-<div class="card">
+<video id="video" autoplay playsinline></video>
 
-<h3>Start Lesson</h3>
-
-<p>Click below to join your Google Meet lesson.</p>
-
-<a class="btn" href="https://meet.google.com/" target="_blank">
-Join Lesson
-</a>
+<div id="overlay">
+<h2>Enter Lesson Code</h2>
+<input id="codeInput" type="password" placeholder="Enter code">
+<button onclick="unlock()">Unlock</button>
+</div>
 
 </div>
 
@@ -50,6 +48,21 @@ Join Lesson
 </footer>
 
 <script src="script.js"></script>
+
+<script>
+navigator.mediaDevices.getUserMedia({ video: true, audio: true })
+.then(stream => {
+document.getElementById("video").srcObject = stream;
+});
+
+function unlock(){
+const code = document.getElementById("codeInput").value;
+if(code === "2468"){
+document.getElementById("overlay").style.display = "none";
+document.getElementById("video").style.filter = "none";
+}
+}
+</script>
 
 </body>
 </html>
