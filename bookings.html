@@ -7,56 +7,51 @@
 <link rel="stylesheet" href="style.css">
 </head>
 
-<body class="dark-theme">
+<body class="dark">
 
 <nav>
-    <div class="logo">GuitarTimee</div>
+<div class="logo">GuitarTimee</div>
 
-    <div class="nav-right">
+<div class="nav-right">
+<a href="index.html">Home</a>
+<a href="bookings.html">Bookings</a>
+<a href="workspace.html">Workspace</a>
 
-        <a href="index.html">Home</a>
-        <a href="bookings.html">Bookings</a>
-        <a href="workspace.html">Workspace</a>
-
-        <select id="themeSelector" onchange="setTheme(this.value)">
-            <option value="dark">Dark</option>
-            <option value="light">Light</option>
-            <option value="cool">Cool Colours</option>
-        </select>
-
-    </div>
+<select id="themeSelector" onchange="setTheme(this.value)">
+<option value="dark">Dark</option>
+<option value="light">Light</option>
+<option value="cool">Cool Colours</option>
+</select>
+</div>
 </nav>
 
 <section>
 
 <h1>Book a Lesson</h1>
 
-<form action="mailto:rtsavaris@hotmail.com" method="post" enctype="text/plain">
+<form action="mailto:rtsavaris@hotmail.com" method="post">
 
 <input type="text" name="name" placeholder="Name" required>
 <input type="email" name="email" placeholder="Email" required>
 <input type="tel" name="phone" placeholder="Phone (optional)">
 
 <select name="lesson">
-    <option>Online (£15)</option>
-    <option>Face-to-Face (£20)</option>
+<option>Online (£15)</option>
+<option>Face-to-Face (£20)</option>
 </select>
 
-<input type="text" name="time" placeholder="Preferred time">
+<textarea placeholder="Your goals"></textarea>
 
-<textarea name="message" placeholder="Your goals"></textarea>
-
-<button class="btn" type="submit">Send Booking</button>
+<button class="btn">Send Booking</button>
 
 </form>
 
 </section>
 
 <footer>
-    <p>© 2026 GuitarTimee</p>
+<p>© 2026 GuitarTimee</p>
 </footer>
 
 <script src="script.js"></script>
-
 </body>
 </html>
