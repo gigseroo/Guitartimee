@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bookings | GuitarTimee</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bookings</title>
+<link rel="stylesheet" href="style.css">
 </head>
 
 <body class="dark-theme">
@@ -13,67 +13,42 @@
     <div class="logo">GuitarTimee</div>
 
     <div class="nav-right">
+
+        <a href="index.html">Home</a>
+        <a href="bookings.html">Bookings</a>
+        <a href="workspace.html">Workspace</a>
+
         <select id="themeSelector" onchange="setTheme(this.value)">
             <option value="dark">Dark</option>
             <option value="light">Light</option>
             <option value="cool">Cool Colours</option>
         </select>
 
-        <a href="#" class="student-login">Student Login</a>
     </div>
 </nav>
 
-<section class="booking-page">
+<section>
 
-    <h1>Book a Lesson</h1>
+<h1>Book a Lesson</h1>
 
-    <p style="margin-bottom:30px;">
-        Complete the form below and Rafael will get back to you to arrange your lesson.
-    </p>
+<form action="mailto:rtsavaris@hotmail.com" method="post" enctype="text/plain">
 
-    <form action="mailto:rtsavaris@hotmail.com" method="post" enctype="text/plain">
+<input type="text" name="name" placeholder="Name" required>
+<input type="email" name="email" placeholder="Email" required>
+<input type="tel" name="phone" placeholder="Phone (optional)">
 
-        <input
-            type="text"
-            name="name"
-            placeholder="Your Name"
-            required
-        >
+<select name="lesson">
+    <option>Online (£15)</option>
+    <option>Face-to-Face (£20)</option>
+</select>
 
-        <input
-            type="email"
-            name="email"
-            placeholder="Your Email"
-            required
-        >
+<input type="text" name="time" placeholder="Preferred time">
 
-        <input
-            type="tel"
-            name="phone"
-            placeholder="Phone Number (Optional)"
-        >
+<textarea name="message" placeholder="Your goals"></textarea>
 
-        <select name="lesson">
-            <option>Online Lesson (£15)</option>
-            <option>Face-to-Face Lesson (£20)</option>
-        </select>
+<button class="btn" type="submit">Send Booking</button>
 
-        <input
-            type="text"
-            name="time"
-            placeholder="Preferred Date & Time"
-        >
-
-        <textarea
-            name="message"
-            placeholder="Tell me about your experience level and goals"
-        ></textarea>
-
-        <button type="submit" class="btn">
-            Send Booking Request
-        </button>
-
-    </form>
+</form>
 
 </section>
 
