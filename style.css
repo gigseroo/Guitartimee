@@ -1,4 +1,137 @@
-:root {
+* {
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* THEMES */
+body.dark {
+    --bg:#0b0f14;
+    --card:#121824;
+    --text:#ffffff;
+    --accent:#5aa9ff;
+}
+
+body.light {
+    --bg:#f5f6f8;
+    --card:#ffffff;
+    --text:#111;
+    --accent:#2563eb;
+}
+
+body.cool {
+    --bg:#050507;
+    --card:#12101a;
+    --text:#ffffff;
+    --accent:#00e676;
+}
+
+/* BASE */
+body {
+    background:var(--bg);
+    color:var(--text);
+    transition:0.3s ease;
+}
+
+/* NAV */
+nav {
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:18px 8%;
+    border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+.logo {
+    font-weight:700;
+}
+
+.nav-right {
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+nav a {
+    text-decoration:none;
+    color:var(--text);
+    opacity:0.75;
+    margin-right:10px;
+}
+
+nav a:hover {
+    opacity:1;
+}
+
+/* HERO */
+.hero {
+    text-align:center;
+    padding:90px 20px;
+    background: radial-gradient(circle at top, rgba(90,169,255,0.15), transparent 60%);
+}
+
+.hero h1 {
+    font-size:3rem;
+    margin-bottom:10px;
+}
+
+.hero p {
+    opacity:0.75;
+    margin-bottom:20px;
+}
+
+/* BUTTON */
+.btn {
+    display:inline-block;
+    padding:12px 20px;
+    background:var(--accent);
+    color:#fff;
+    border-radius:8px;
+    text-decoration:none;
+}
+
+/* SECTIONS */
+section {
+    padding:60px 8%;
+    max-width:1000px;
+    margin:auto;
+}
+
+/* CARDS */
+.pricing {
+    display:flex;
+    gap:20px;
+    flex-wrap:wrap;
+}
+
+.card {
+    flex:1;
+    min-width:220px;
+    background:var(--card);
+    padding:20px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,0.06);
+}
+
+/* FORM */
+input, textarea, select {
+    width:100%;
+    padding:12px;
+    margin-bottom:10px;
+    border-radius:8px;
+    border:none;
+    background:var(--card);
+    color:var(--text);
+}
+
+/* FOOTER */
+footer {
+    text-align:center;
+    padding:30px;
+    opacity:0.6;
+    border-top:1px solid rgba(255,255,255,0.05);
+}:root {
     --bg:#0b0f14;
     --card:#121824;
     --text:#ffffff;
