@@ -3,12 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Workspace</title>
+<title>GuitarTimee Workspace</title>
 <link rel="stylesheet" href="style.css">
+
+<!-- LiveKit engine -->
+<script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.min.js"></script>
 </head>
 
 <body class="dark">
 
+<!-- NAV -->
 <nav>
     <div class="logo">GuitarTimee</div>
 
@@ -16,103 +20,129 @@
         <a href="index.html">Home</a>
         <a href="bookings.html">Bookings</a>
         <a href="workspace.html">Workspace</a>
-
-        <select id="themeSelector" onchange="setTheme(this.value)">
-            <option value="dark">Dark</option>
-            <option value="light">Light</option>
-            <option value="cool">Cool Colours</option>
-        </select>
     </div>
 </nav>
 
+<!-- HEADER -->
+<section>
+    <h1>Lesson Workspace</h1>
+    <p>Enter your details to join your private lesson room.</p>
+</section>
+
+<!-- JOIN BOX -->
 <section>
 
-<h1>Workspace</h1>
-
-<p>This is your lesson space. Future upgrades will include live lessons and practice tools.</p>
-
 <div class="card">
-    <h3>Lesson Access</h3>
-    <p>Join links will appear here when lessons are scheduled.</p>
-</div>
 
-<div class="card">
-    <h3>Practice</h3>
-    <p>Assignments and exercises will be added here.</p>
+    <h3>Join Lesson</h3>
+
+    <!-- Workspace selector -->
+    <select id="workspace">
+        <option value="A">Workspace A</option>
+        <option value="B">Workspace B</option>
+    </select>
+
+    <!-- identity -->
+    <input id="identity" placeholder="Your name (Student / Rafael)" />
+
+    <!-- room code -->
+    <input id="code" placeholder="Lesson code (e.g. GTA-2468)" />
+
+    <button class="btn" onclick="joinRoom()">Join Room</button>
+
 </div>
 
 </section>
 
+<!-- VIDEO AREA -->
+<section>
+
+<div id="videoGrid" style="
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap:10px;
+"></div>
+
+</section>
+
+<!-- FOOTER -->
 <footer>
     <p>© 2026 GuitarTimee</p>
 </footer>
 
-<script src="script.js"></script>
-</body>
-</html><!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Workspace</title>
-<link rel="stylesheet" href="style.css">
-</head>
-
-<body class="dark">
-
-<nav>
-<div class="logo">GuitarTimee</div>
-
-<div class="nav-right">
-<a href="index.html">Home</a>
-<a href="bookings.html">Bookings</a>
-<a href="workspace.html">Workspace</a>
-
-<select id="themeSelector" onchange="setTheme(this.value)">
-<option value="dark">Dark</option>
-<option value="light">Light</option>
-<option value="cool">Cool Colours</option>
-</select>
-</div>
-</nav>
-
-<section>
-
-<h1>Lesson Workspace</h1>
-
-<div class="workspace">
-
-<video id="video" autoplay playsinline></video>
-
-<div id="overlay">
-<h2>Enter Lesson Code</h2>
-<input id="codeInput" type="password" placeholder="Enter code">
-<button onclick="unlock()">Unlock</button>
-</div>
-
-</div>
-
-</section>
-
-<footer>
-<p>© 2026 GuitarTimee</p>
-</footer>
-
-<script src="script.js"></script>
-
+<!-- LIVEKIT LOGIC -->
 <script>
-navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-.then(stream => {
-document.getElementById("video").srcObject = stream;
-});
 
-function unlock(){
-const code = document.getElementById("codeInput").value;
-if(code === "2468"){
-document.getElementById("overlay").style.display = "none";
-document.getElementById("video").style.filter = "none";
+const LIVEKIT_URL = "wss://guitartimee-mmfb38lm.livekit.cloud";
+
+async function joinRoom() {
+
+    const workspace = document.getElementById("workspace").value;
+    const identity = document.getElementById("identity").value;
+    const code = document.getElementById("code").value;
+
+    if (!identity || !code) {
+        alert("Please enter name and code");
+        return;
+    }
+
+    const roomName = workspace + "-" + code;
+
+    // 1. Get token from Supabase Edge Function
+    const res = await fetch(
+        "https://mroebgbkpieancxnpckx.functions.supabase.co/livekit-token",
+        {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                room: roomName,
+                identity: identity
+            })
+        }
+    );
+
+    const data = await res.json();
+
+    if (!data.token) {
+        alert("Failed to get token");
+        return;
+    }
+
+    const token = data.token;
+
+    // 2. Connect to LiveKit
+    const { Room, createLocalTracks } = LivekitClient;
+
+    const room = new Room();
+
+    await room.connect(LIVEKIT_URL, token);
+
+    const videoGrid = document.getElementById("videoGrid");
+
+    // 3. Publish local camera + mic
+    const tracks = await createLocalTracks({
+        audio: true,
+        video: true
+    });
+
+    for (const t of tracks) {
+        room.localParticipant.publishTrack(t);
+    }
+
+    // 4. Attach local video
+    tracks.forEach(track => {
+        const el = track.attach();
+        videoGrid.appendChild(el);
+    });
+
+    // 5. Attach remote participant tracks
+    room.on("trackSubscribed", (track) => {
+        const el = track.attach();
+        videoGrid.appendChild(el);
+    });
+
 }
-}
+
 </script>
 
 </body>
